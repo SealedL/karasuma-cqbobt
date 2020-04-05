@@ -20,7 +20,7 @@ namespace cqbot
             webSocketEvent.MessageEvent += async (api, e) =>
             {
                 Console.WriteLine(e.Content.Text);
-                await httpApi.SendPrivateMessageAsync(e.UserId, e.Content);
+                await httpApi.SendMessageAsync(e.Endpoint, e.Content);
             };
             webSocketEvent.FriendRequestEvent += (api, e) =>
             {

@@ -13,6 +13,11 @@ namespace cqbot
     {
         static void Main(string[] args)
         {
+
+            string help = "使用方法：\n以\'/\'为开头加上功能列表里的功能命令和后续参数\n\n功能列表：\n1. echo：复读命令后的字符串；\n2. support：显示该项目GitHub仓库链接，欢迎贡献。\n";
+            string support = "本项目GitHub仓库链接：https://github.com/SealedL/karasuma-cqbot\n欢迎贡献";
+
+
             var httpApi = new HttpApiClient();
             httpApi.ApiAddress = "http://127.0.0.1:5700/";
 
@@ -30,10 +35,19 @@ namespace cqbot
                         string text = e.Content.Text;
                         if (text.StartsWith('/'))
                         {
+                            if (String.Compare(text, 0, "/help ", 0, 5) == 0)
+                            {
+                                await httpApi.SendGroupMessageAsync(groupMessage.GroupId, help);
+                            }
+
                             if (String.Compare(text, 0, "/echo ", 0, 5) == 0)
                             {
-                                string answer = text.Substring(6);
-                                await httpApi.SendGroupMessageAsync(groupMessage.GroupId, answer);
+                                await httpApi.SendGroupMessageAsync(groupMessage.GroupId, text.Substring(6));
+                            }
+
+                            if (String.Compare(text, 0, "/support ", 0, 7) == 0)
+                            {
+                                await httpApi.SendGroupMessageAsync(groupMessage.GroupId, support);
                             }
                         }
                     }

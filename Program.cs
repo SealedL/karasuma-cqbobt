@@ -22,32 +22,37 @@ namespace cqbot
             // 订阅事件。
             webSocketEvent.MessageEvent += async (api, e) =>
             {
-                Console.WriteLine(e.Content.Text);
-
-                if (e is GroupMessage group)
+                if (e is GroupMessage groupMessage)
                 {
-                    Console.WriteLine("Group ID: " + group.GroupId);
-                    await httpApi.SendGroupMessageAsync(group.GroupId, e.Content);
+                    Console.WriteLine("Group ID: " + groupMessage.GroupId);
+                    if (e.Content.IsPlaintext)
+                    {
+                        string text = e.Content.Text;
+                        if (text.StartsWith('/'))
+                        {
+                            if (String.Compare(text, 0, "/echo ", 0, 5) == 0)
+                            {
+                                string answer = text.Substring(6);
+                                await httpApi.SendGroupMessageAsync(groupMessage.GroupId, answer);
+                            }
+                        }
+                    }
+                }
+                else if (e is PrivateMessage privateMessage)
+                {
+                    Console.WriteLine("QQ ID: " + privateMessage.UserId);
                 }
             };
+
             webSocketEvent.FriendRequestEvent += (api, e) =>
             {
-                return true;
+                return false;
             };
+
             webSocketEvent.GroupInviteEvent += (api, e) =>
             {
                 return true;
-            }; // 可以通过 return 的方式响应请求，与使用 HTTP 时没有差别。
-
-            // 每秒打印 WebSocket 状态。
-            Task.Run(async () =>
-            {
-                while (true)
-                {
-                    await Task.Delay(1000);
-                    Console.WriteLine("Available: {0}, Listening {1}", webSocketEvent.IsAvailable, webSocketEvent.IsListening);
-                }
-            });
+            };
 
             // 连接前等待 3 秒观察状态。
             Task.Delay(TimeSpan.FromSeconds(3)).Wait();
@@ -55,6 +60,16 @@ namespace cqbot
             // 连接（开始监听上报）。
             var cancellationTokenSource = new CancellationTokenSource();
             webSocketEvent.StartListen(cancellationTokenSource.Token); // 首次连接必须成功。
+
+            // 每10秒打印 WebSocket 状态。
+            Task.Run(async () =>
+            {
+                while (true)
+                {
+                    await Task.Delay(10000);
+                    Console.WriteLine("Available: {0}, Listening {1}", webSocketEvent.IsAvailable, webSocketEvent.IsListening);
+                }
+            });
 
             Console.ReadLine();
         }

@@ -4,6 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Sisters.WudiLib;
 using Sisters.WudiLib.WebSocket;
+using Sisters.WudiLib.Posts;
+using Sisters.WudiLib.Responses;
 
 namespace cqbot
 {
@@ -21,13 +23,11 @@ namespace cqbot
             webSocketEvent.MessageEvent += async (api, e) =>
             {
                 Console.WriteLine(e.Content.Text);
-                Console.WriteLine("Message Font: " + e.Font.ToString());
-                Console.WriteLine("Message ID: " + e.MessageId.ToString());
-                Console.WriteLine("Message Type: " + e.MessageType.ToString());
-                Console.WriteLine("Message Raw: " + e.RawMessage.ToString());
-                Console.WriteLine("Self ID: " + e.SelfId.ToString());
-                Console.WriteLine("Message Source: " + e.Source.ToString());
-                Console.WriteLine("Message Time: " + e.Time.ToString());
+
+                if (e is GroupMessage group)
+                {
+                    Console.WriteLine("Group ID: " + group.GroupId.ToString());
+                }
 
                 await httpApi.SendPrivateMessageAsync(921228653, e.Content);
             };

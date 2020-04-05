@@ -30,6 +30,8 @@ namespace cqbot
                 Console.WriteLine(e.SelfId);
                 Console.WriteLine(e.Source);
                 Console.WriteLine(e.Time);
+
+                await httpApi.SendPrivateMessageAsync(921228653, e.Content);
             };
             webSocketEvent.FriendRequestEvent += (api, e) =>
             {

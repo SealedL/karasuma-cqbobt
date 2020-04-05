@@ -26,10 +26,9 @@ namespace cqbot
 
                 if (e is GroupMessage group)
                 {
-                    Console.WriteLine("Group ID: " + group.GroupId.ToString());
+                    Console.WriteLine("Group ID: " + group.GroupId);
+                    await httpApi.SendGroupMessageAsync(group.GroupId, e.Content);
                 }
-
-                await httpApi.SendPrivateMessageAsync(921228653, e.Content);
             };
             webSocketEvent.FriendRequestEvent += (api, e) =>
             {

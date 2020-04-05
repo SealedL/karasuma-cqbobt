@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Sisters.WudiLib;
@@ -16,11 +17,17 @@ namespace cqbot
             var webSocketEvent = new CqHttpWebSocketEvent("ws://127.0.0.1:6700/event");
             webSocketEvent.ApiClient = httpApi;
 
+            var userList = new List<long> { 921228653 };
+
             // 订阅事件。
             webSocketEvent.MessageEvent += async (api, e) =>
             {
                 Console.WriteLine(e.Content.Text);
-                await httpApi.SendMessageAsync(e.Endpoint, e.Content);
+                Console.WriteLine(e.Endpoint.ToString());
+                if (userList.Contains(e.UserId))
+                {
+                    await httpApi.SendPrivateMessageAsync(e.UserId, e.Content);
+                }
             };
             webSocketEvent.FriendRequestEvent += (api, e) =>
             {

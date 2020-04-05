@@ -23,7 +23,14 @@ namespace cqbot
             webSocketEvent.MessageEvent += async (api, e) =>
             {
                 Console.WriteLine(e.Content.Text);
-                Console.WriteLine(e.Endpoint.ToString());
+                Console.WriteLine(e.Font);
+                Console.WriteLine(e.MessageId);
+                Console.WriteLine(e.MessageType);
+                Console.WriteLine(e.RawMessage);
+                Console.WriteLine(e.SelfId);
+                Console.WriteLine(e.Source);
+                Console.WriteLine(e.Time);
+
                 if (userList.Contains(e.UserId))
                 {
                     await httpApi.SendPrivateMessageAsync(e.UserId, e.Content);

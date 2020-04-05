@@ -21,13 +21,13 @@ namespace cqbot
             webSocketEvent.MessageEvent += async (api, e) =>
             {
                 Console.WriteLine(e.Content.Text);
-                Console.WriteLine(e.Font);
-                Console.WriteLine(e.MessageId);
-                Console.WriteLine(e.MessageType);
-                Console.WriteLine(e.RawMessage);
-                Console.WriteLine(e.SelfId);
-                Console.WriteLine(e.Source);
-                Console.WriteLine(e.Time);
+                Console.WriteLine("Message Font: " + e.Font.ToString());
+                Console.WriteLine("Message ID: " + e.MessageId.ToString());
+                Console.WriteLine("Message Type: " + e.MessageType.ToString());
+                Console.WriteLine("Message Raw: " + e.RawMessage.ToString());
+                Console.WriteLine("Self ID: " + e.SelfId.ToString());
+                Console.WriteLine("Message Source: " + e.Source.ToString());
+                Console.WriteLine("Message Time: " + e.Time.ToString());
 
                 await httpApi.SendPrivateMessageAsync(921228653, e.Content);
             };

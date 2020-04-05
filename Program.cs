@@ -17,8 +17,6 @@ namespace cqbot
             var webSocketEvent = new CqHttpWebSocketEvent("ws://127.0.0.1:6700/event");
             webSocketEvent.ApiClient = httpApi;
 
-            var userList = new List<long> { 921228653 };
-
             // 订阅事件。
             webSocketEvent.MessageEvent += async (api, e) =>
             {

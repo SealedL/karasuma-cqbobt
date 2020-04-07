@@ -22,7 +22,14 @@ namespace cqbot
                         string answer = "";
                         for (int i = 1; i < subs.GetLength(0); i++)
                         {
-                            answer += (subs[i] + " ");
+                            if (i != subs.GetLength(0) - 1)
+                            {
+                                answer += (subs[i] + " ");
+                            }
+                            else
+                            {
+                                answer += subs[i];
+                            }
                         }
                         answer += "\b";
                         await api.SendGroupMessageAsync(groupMessage.GroupId, answer);

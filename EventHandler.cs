@@ -31,7 +31,6 @@ namespace cqbot
                                 answer += subs[i];
                             }
                         }
-                        answer += "\b";
                         await api.SendGroupMessageAsync(groupMessage.GroupId, answer);
                     }
                     else if (String.Compare(subs[0], "/help") == 0)

@@ -13,9 +13,9 @@ namespace cqbot
         {
 
             var httpApi = new HttpApiClient();
-            httpApi.ApiAddress = SharedText.HttpApiAdress;
+            httpApi.ApiAddress = SharedContent.HttpApiPath;
 
-            var webSocketEvent = new CqHttpWebSocketEvent(SharedText.WebSocketEventAdress);
+            var webSocketEvent = new CqHttpWebSocketEvent(SharedContent.WebSocketEventPath);
             webSocketEvent.ApiClient = httpApi;
 
 

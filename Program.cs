@@ -3,20 +3,17 @@ using System.Threading;
 using System.Threading.Tasks;
 using Sisters.WudiLib;
 using Sisters.WudiLib.WebSocket;
-using Sisters.WudiLib.Posts;
 
 namespace cqbot
 {
-    class Program
+    internal static class Program
     {
-        static void Main(string[] args)
+        private static void Main()
         {
 
-            var httpApi = new HttpApiClient();
-            httpApi.ApiAddress = SharedContent.HttpApiPath;
+            var httpApi = new HttpApiClient {ApiAddress = SharedContent.HttpApiPath};
 
-            var webSocketEvent = new CqHttpWebSocketEvent(SharedContent.WebSocketEventPath);
-            webSocketEvent.ApiClient = httpApi;
+            var webSocketEvent = new CqHttpWebSocketEvent(SharedContent.WebSocketEventPath) {ApiClient = httpApi};
 
 
 
@@ -26,37 +23,31 @@ namespace cqbot
                 await EventHandler.MessageProcess(api, message);
             };
 
-            webSocketEvent.FriendRequestEvent += (api, e) =>
-            {
-                return false;
-            };
+            webSocketEvent.FriendRequestEvent += (api, e) => false;
 
-            webSocketEvent.GroupInviteEvent += (api, e) =>
-            {
-                return true;
-            };
+            webSocketEvent.GroupInviteEvent += (api, e) => true;
 
             // 连接前等待 3 秒观察状态。
             Task.Delay(TimeSpan.FromSeconds(3)).Wait();
 
             // 连接（开始监听上报）。
-            createConnect(webSocketEvent);
+            CreateConnect(webSocketEvent);
 
             // 每10秒打印 WebSocket 状态。
             Task.Run(async () =>
             {
                 while (true)
                 {
-                    await Task.Delay(10000);
                     Console.WriteLine($"Available: {webSocketEvent.IsAvailable}," +
                         $"Listening {webSocketEvent.IsListening}");
+                    await Task.Delay(10000);
                 }
             });
 
             Console.ReadLine();
         }
 
-        static void createConnect(CqHttpWebSocketEvent webSocketEvent)
+        private static void CreateConnect(CqHttpWebSocketEvent webSocketEvent)
         {
             var cancellationTokenSource = new CancellationTokenSource();
             try
@@ -67,10 +58,10 @@ namespace cqbot
             {
                 Console.WriteLine(exception.Message);
                 cancellationTokenSource.CancelAfter(TimeSpan.FromSeconds(2));
-                Task.Delay(TimeSpan.FromSeconds(5)).Wait();
+                Task.Delay(TimeSpan.FromSeconds(5), cancellationTokenSource.Token).Wait(cancellationTokenSource.Token);
                 cancellationTokenSource.Dispose();
-                createConnect(webSocketEvent);
-                Task.Delay(-1).Wait();
+                CreateConnect(webSocketEvent);
+                Task.Delay(-1, cancellationTokenSource.Token).Wait(cancellationTokenSource.Token);
             }
         }
     }

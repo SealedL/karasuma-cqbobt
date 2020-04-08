@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using Sisters.WudiLib;
 using Sisters.WudiLib.Posts;
@@ -57,7 +56,7 @@ namespace cqbot
                                     comment += subs[i];
                                 }
                             }
-                            comment += $"\n留言时间：{groupMessage.Time}";
+                            comment += $"\n留言时间：{groupMessage.Time.ToLocalTime()}";
                             await api.SendPrivateMessageAsync(SharedContent.MasterID, comment);
                         }
                     }

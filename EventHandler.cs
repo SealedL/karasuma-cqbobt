@@ -45,7 +45,7 @@ namespace cqbot
                         else if (string.CompareOrdinal(subs[0], "/comment") == 0)
                         {
                             await api.SendGroupMessageAsync(groupMessage.GroupId, SharedContent.Comment);
-                            var comment = $"来自{groupMessage.Sender.InGroupName}的一条留言：\n";
+                            var comment = $"来自群{groupMessage.GroupId}:{groupMessage.Sender.InGroupName}的一条留言：\n";
                             for (var i = 1; i < subs.GetLength(0); i++)
                             {
                                 if (i != subs.GetLength(0) - 1)

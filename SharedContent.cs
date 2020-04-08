@@ -11,7 +11,8 @@ namespace cqbot
                                    "命令列表：\n" +
                                    "help       显示本帮助内容；\n\n" +
                                    "support    显示本项目GitHub仓库链接;\n\n" +
-                                   "echo       复读命令后的内容。";
+                                   "echo       复读命令后的内容；\n\n" + 
+                                   "comment    给作者留言。\n\n";
         public const string Support = "本项目GitHub仓库链接：" +
                                       "https://github.com/SealedL/karasuma-cqbot\n" +
                                       "欢迎帮助我改进程序。";

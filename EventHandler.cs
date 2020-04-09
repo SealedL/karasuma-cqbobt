@@ -57,7 +57,7 @@ namespace cqbot
                                 }
                             }
                             comment += $"\n留言时间：{groupMessage.Time.ToLocalTime()}";
-                            await api.SendPrivateMessageAsync(SharedContent.MasterID, comment);
+                            await api.SendPrivateMessageAsync(SharedContent.MasterId, comment);
                         }
                     }
 

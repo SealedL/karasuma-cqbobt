@@ -1,6 +1,10 @@
+using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
+
 namespace cqbot
 {
-    internal struct SharedContent
+    internal static class SharedContent
     {
         //API related strings
         public const string HttpApiPath = "http://127.0.0.1:5700/";
@@ -19,6 +23,10 @@ namespace cqbot
         public const string Comment = "您已成功送出一条留言。";
         
         //User ID related
-        public const long MasterID = 921228653;
+        private const string JsonFilePath = "./ids.json";
+        private static readonly string JsonString = File.ReadAllText(JsonFilePath);
+        private static readonly IdType Ids = JsonSerializer.Deserialize<IdType>(JsonString);
+        public static readonly long MasterId = Ids.MasterId;
+        public static readonly List<long> AdminIds = Ids.AdminIds;
     }
 }

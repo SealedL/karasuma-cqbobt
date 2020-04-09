@@ -21,12 +21,11 @@ namespace cqbot
                                       "https://github.com/SealedL/karasuma-cqbot\n" +
                                       "欢迎帮助我改进程序。";
         public const string Comment = "您已成功送出一条留言。";
+        public const string SyntaxError = "格式错误。";
+        public const string PermissionError = "权限不足：宁不配使唤我。";
         
         //User ID related
-        private const string JsonFilePath = "./bin/Debug/netcoreapp3.1/ids.json";
-        private static readonly string JsonString = File.ReadAllText(JsonFilePath);
-        private static readonly IdType Ids = JsonSerializer.Deserialize<IdType>(JsonString);
-        public static readonly long MasterId = Ids.MasterId;
-        public static readonly List<long> AdminIds = Ids.AdminIds;
+        public const string JsonFilePath = "./bin/Debug/netcoreapp3.1/ids.json";
+        public static readonly long MasterId = Auth.ReadMasterId();
     }
 }

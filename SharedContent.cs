@@ -23,7 +23,7 @@ namespace cqbot
         public const string Comment = "您已成功送出一条留言。";
         
         //User ID related
-        private const string JsonFilePath = "./ids.json";
+        private const string JsonFilePath = "./bin/Debug/netcoreapp3.1/ids.json";
         private static readonly string JsonString = File.ReadAllText(JsonFilePath);
         private static readonly IdType Ids = JsonSerializer.Deserialize<IdType>(JsonString);
         public static readonly long MasterId = Ids.MasterId;

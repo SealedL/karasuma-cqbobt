@@ -4,7 +4,7 @@ using System.Text.Json;
 
 namespace cqbot
 {
-    public class Auth
+    public static class Auth
     {
         private static readonly JsonSerializerOptions Option = new JsonSerializerOptions()
         {
@@ -27,6 +27,14 @@ namespace cqbot
         {
             var idType = IdTypeDeserialize();
             idType.AdminIds.Add(id);
+            var newJsonString = JsonSerializer.Serialize(idType, Option);
+            File.WriteAllText(SharedContent.JsonFilePath, newJsonString);
+        }
+
+        public static void DeleteAdminIds(long id)
+        {
+            var idType = IdTypeDeserialize();
+            idType.AdminIds.Remove(id);
             var newJsonString = JsonSerializer.Serialize(idType, Option);
             File.WriteAllText(SharedContent.JsonFilePath, newJsonString);
         }

@@ -80,7 +80,7 @@ namespace cqbot
                             }
                             else if (string.CompareOrdinal(command, "/image-test") == 0)
                             {
-                                var image = SendingMessage.NetImage("file:///root/images/test.png");
+                                var image = SendingMessage.NetImage("file:///home/cqbot/images/test.png");
                                 await api.SendGroupMessageAsync(groupMessage.GroupId, image);
                             }
                             else

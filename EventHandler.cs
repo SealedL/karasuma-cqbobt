@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using Sisters.WudiLib;
 using Sisters.WudiLib.Posts;
@@ -85,7 +86,8 @@ namespace cqbot
                         }
                         else if (string.CompareOrdinal(command, "/image-test") == 0)
                         {
-                            var image = SendingMessage.LocalImage("/home/user/coolq/images/test.png");
+                            var bytes = await File.ReadAllBytesAsync("/home/cqbot/images/test.png");
+                            var image = SendingMessage.ByteArrayImage(bytes);
                             await api.SendGroupMessageAsync(groupMessage.GroupId, image);
                         }
                         else

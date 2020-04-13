@@ -78,15 +78,15 @@ namespace cqbot
                                     }
                                 }
                             }
-                            else if (string.CompareOrdinal(command, "/image-test") == 0)
-                            {
-                                var image = SendingMessage.NetImage("file:///home/cqbot/images/test.png");
-                                await api.SendGroupMessageAsync(groupMessage.GroupId, image);
-                            }
                             else
                             {
                                 await api.SendGroupMessageAsync(groupMessage.GroupId, SharedContent.PermissionError);
                             }
+                        }
+                        else if (string.CompareOrdinal(command, "/image-test") == 0)
+                        {
+                            var image = SendingMessage.NetImage("file:///home/cqbot/images/test.png");
+                            await api.SendGroupMessageAsync(groupMessage.GroupId, image);
                         }
                         else
                         {

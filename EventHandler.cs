@@ -53,10 +53,16 @@ namespace cqbot
                             var url = ImageCapt.UrlHandle(param);
                             try
                             {
-                                ImageCapt.CaptCall(url);
-                                var bytes = File.ReadAllBytes("/home/cqbot/images/result.png");
-                                var image = SendingMessage.ByteArrayImage(bytes);
-                                await api.SendGroupMessageAsync(groupMessage.GroupId, image);
+                                var bytes = ImageCapt.CaptCall(url);
+                                if (bytes != null)
+                                {
+                                    var image = SendingMessage.ByteArrayImage(bytes);
+                                    await api.SendGroupMessageAsync(groupMessage.GroupId, image);
+                                }
+                                else
+                                {
+                                    await api.SendGroupMessageAsync(groupMessage.GroupId,SharedContent.Error);
+                                }
                             }
                             catch (Exception e)
                             {

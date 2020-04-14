@@ -7,8 +7,9 @@ namespace cqbot
 {
     public static class ImageCapt
     {
-        public static void CaptCall(string url)
+        public static byte[] CaptCall(string url)
         {
+            byte[] bytes = null;
             try
             {
                 var qtcapt = new ProcessStartInfo("xvfb-run", "--server-args=\"-screen 0, 1920x1080x24\" " +
@@ -19,7 +20,7 @@ namespace cqbot
                 qtcapt.EnvironmentVariables.Add("http_proxy", "http://localhost:8118");
                 qtcapt.EnvironmentVariables.Add("https_proxy", "http://localhost:8118");
                 var proc = Process.Start(qtcapt);
-                if (proc == null) return;
+                if (proc == null) return null;
                 var sr = proc.StandardOutput;
                 var log = "";
                 while (!sr.EndOfStream)
@@ -27,10 +28,10 @@ namespace cqbot
                     log += sr.ReadLine();
                 }
                 File.WriteAllText("/home/cqbot/logs.log", log);
-
                 if (!proc.HasExited)
                 {
                     proc.Kill();
+                    bytes = File.ReadAllBytes("/home/cqbot/images/result.png");
                 }
             }
             catch (Exception e)
@@ -39,6 +40,8 @@ namespace cqbot
                 log += e.Message;
                 File.WriteAllText("/home/cqbot/logs.log", log);
             }
+
+            return bytes;
         }
 
         public static string UrlHandle(string input)

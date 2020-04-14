@@ -16,7 +16,7 @@ namespace cqbot
                                                               $"cutycapt --url=\"{url}\" " +
                                                               "--delay=5000" +
                                                               "--out=\"/home/cqbot/images/result.png\"")
-                    {RedirectStandardOutput = true};
+                    {RedirectStandardOutput = true, RedirectStandardError = true};
                 qtcapt.EnvironmentVariables.Add("http_proxy", "http://localhost:8118");
                 qtcapt.EnvironmentVariables.Add("https_proxy", "http://localhost:8118");
                 var proc = Process.Start(qtcapt);
@@ -26,11 +26,14 @@ namespace cqbot
                 while (!sr.EndOfStream)
                 {
                     log += sr.ReadLine();
-                    if (proc.HasExited) continue;
+                }
+                proc.WaitForExit();
+                File.WriteAllText("/home/cqbot/logs.log", log);
+                if (!proc.HasExited)
+                {
                     proc.Kill();
                     bytes = File.ReadAllBytes("/home/cqbot/images/result.png");
                 }
-                File.WriteAllText("/home/cqbot/logs.log", log);
             }
             catch (Exception e)
             {

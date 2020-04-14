@@ -1,42 +1,24 @@
 using System;
-using System.Diagnostics;
-using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
+using PuppeteerSharp;
 
 namespace cqbot
 {
     public static class ImageCapt
     {
-        public static byte[] CaptCall(string url)
+        public static async Task CaptCall(string url)
         {
-            byte[] bytes = null;
-            try
+            var browser = await Puppeteer.LaunchAsync(new LaunchOptions()
             {
-                var qtcapt = new ProcessStartInfo("xvfb-run", $"--server-args=\"-screen 0, 1920x1080x24\" cutycapt --url=\"{url}\" --delay=20000 --out=\"/home/cqbot/images/result.png\"")
-                    {RedirectStandardOutput = true, RedirectStandardError = true};
-                qtcapt.EnvironmentVariables.Add("http_proxy", "http://localhost:8118");
-                qtcapt.EnvironmentVariables.Add("https_proxy", "http://localhost:8118");
-                var proc = Process.Start(qtcapt);
-                if (proc == null) return null;
-                var sr = proc.StandardOutput;
-                var log = "";
-                while (!sr.EndOfStream)
-                {
-                    log += sr.ReadLine();
-                    log += "\n";
-                }
-                File.WriteAllText("/home/cqbot/logs.log", log);
-                proc.WaitForExit();
-                bytes = File.ReadAllBytes("/home/cqbot/images/result.png");
-            }
-            catch (Exception e)
-            {
-                var log = "";
-                log += e.Message;
-                File.WriteAllText("/home/cqbot/logs.log", log);
-            }
-
-            return bytes;
+                Headless = true,
+                ExecutablePath = "/usr/bin/chromium-browser"
+            });
+            var page = await browser.NewPageAsync();
+            await page.GoToAsync(url);
+            Thread.Sleep(TimeSpan.FromSeconds(20D));
+            await page.ScreenshotAsync("/home/cqbot/images/answer.png", new ScreenshotOptions(){FullPage = true});
         }
 
         public static string UrlHandle(string input)

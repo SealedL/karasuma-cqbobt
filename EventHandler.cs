@@ -54,7 +54,7 @@ namespace cqbot
                             try
                             {
                                 ImageCapt.CaptCall(url);
-                                var bytes = await File.ReadAllBytesAsync("/home/cqbot/images/result.png");
+                                var bytes = File.ReadAllBytes("/home/cqbot/images/result.png");
                                 var image = SendingMessage.ByteArrayImage(bytes);
                                 await api.SendGroupMessageAsync(groupMessage.GroupId, image);
                             }

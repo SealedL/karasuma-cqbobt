@@ -12,9 +12,10 @@ namespace cqbot
             try
             {
                 var qtcapt = new ProcessStartInfo("xvfb-run", "--server-args=\"-screen 0, 1920x1080x24\" " +
-                                                               $"cutycapt --url=\"{url}\" " +
-                                                               "--delay=5000" +
-                                                               "--out=\"/home/cqbot/images/result.png\"");
+                                                              $"cutycapt --url=\"{url}\" " +
+                                                              "--delay=5000" +
+                                                              "--out=\"/home/cqbot/images/result.png\"")
+                    {RedirectStandardOutput = true};
                 qtcapt.EnvironmentVariables.Add("http_proxy", "http://localhost:8118");
                 qtcapt.EnvironmentVariables.Add("https_proxy", "http://localhost:8118");
                 var proc = Process.Start(qtcapt);

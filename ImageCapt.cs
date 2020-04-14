@@ -38,7 +38,6 @@ namespace cqbot
                 var log = "";
                 log += e.Message;
                 File.WriteAllText("/home/cqbot/logs.log", log);
-                throw;
             }
         }
 

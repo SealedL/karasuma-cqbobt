@@ -12,7 +12,7 @@ namespace cqbot
             byte[] bytes = null;
             try
             {
-                var qtcapt = new ProcessStartInfo("xvfb-run", $"--server-args=\"-screen 0, 1920x1080x24\" cutycapt --url=\"{url}\" --delay=10000 --out=\"/home/cqbot/images/result.png\"")
+                var qtcapt = new ProcessStartInfo("xvfb-run", $"--server-args=\"-screen 0, 1920x1080x24\" cutycapt --url=\"{url}\" --delay=20000 --out=\"/home/cqbot/images/result.png\"")
                     {RedirectStandardOutput = true, RedirectStandardError = true};
                 qtcapt.EnvironmentVariables.Add("http_proxy", "http://localhost:8118");
                 qtcapt.EnvironmentVariables.Add("https_proxy", "http://localhost:8118");

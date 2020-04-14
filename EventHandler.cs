@@ -41,6 +41,12 @@ namespace cqbot
                             comment += $"\n留言时间：{groupMessage.Time.ToLocalTime()}";
                             await api.SendPrivateMessageAsync(SharedContent.MasterId, comment);
                         }
+                        else if (string.CompareOrdinal(command, "/image-test") == 0)
+                        {
+                            var bytes = await File.ReadAllBytesAsync("/home/cqbot/images/test.png");
+                            var image = SendingMessage.ByteArrayImage(bytes);
+                            await api.SendGroupMessageAsync(groupMessage.GroupId, image);
+                        }
                         else if (string.CompareOrdinal(command, "/wolfram") == 0)
                         {
                             await api.SendGroupMessageAsync(groupMessage.GroupId, SharedContent.Wait);

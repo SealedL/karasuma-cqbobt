@@ -26,13 +26,11 @@ namespace cqbot
                 while (!sr.EndOfStream)
                 {
                     log += sr.ReadLine();
-                }
-                File.WriteAllText("/home/cqbot/logs.log", log);
-                if (!proc.HasExited)
-                {
+                    if (proc.HasExited) continue;
                     proc.Kill();
                     bytes = File.ReadAllBytes("/home/cqbot/images/result.png");
                 }
+                File.WriteAllText("/home/cqbot/logs.log", log);
             }
             catch (Exception e)
             {

@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Web;
 
 namespace cqbot
@@ -19,11 +20,12 @@ namespace cqbot
                 var proc = Process.Start(qtcapt);
                 if (proc == null) return;
                 var sr = proc.StandardOutput;
-                    
+                var log = "";
                 while (!sr.EndOfStream)
                 {
-                    Console.WriteLine(sr.ReadLine());
+                    log += sr.ReadLine();
                 }
+                File.WriteAllText("/home/cqbot/logs.log", log);
 
                 if (!proc.HasExited)
                 {
@@ -32,7 +34,9 @@ namespace cqbot
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                var log = "";
+                log += e.Message;
+                File.WriteAllText("/home/cqbot/logs.log", log);
                 throw;
             }
         }

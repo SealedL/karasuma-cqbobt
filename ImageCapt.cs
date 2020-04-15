@@ -10,15 +10,16 @@ namespace cqbot
     {
         public static async Task CaptCall(string url)
         {
-            var browser = await Puppeteer.LaunchAsync(new LaunchOptions()
+            var browser = await Puppeteer.LaunchAsync(new LaunchOptions
             {
                 Headless = true,
-                ExecutablePath = "/usr/bin/chromium-browser"
+                ExecutablePath = "/usr/bin/chromium-browser",
+                Args = new []{"--proxy-server=localhost:8118"}
             });
             var page = await browser.NewPageAsync();
             await page.GoToAsync(url);
             Thread.Sleep(TimeSpan.FromSeconds(20D));
-            await page.ScreenshotAsync("/home/cqbot/images/answer.png", new ScreenshotOptions(){FullPage = true});
+            await page.ScreenshotAsync("/home/cqbot/images/answer.png", new ScreenshotOptions {FullPage = true});
             await browser.CloseAsync();
         }
 

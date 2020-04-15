@@ -64,6 +64,11 @@ namespace cqbot
                                 await api.SendGroupMessageAsync(groupMessage.GroupId,SharedContent.Error);
                             }
                         }
+                        else if (string.CompareOrdinal(command, "/encode") == 0)
+                        {
+                            var encoded = ImageCapt.UrlHandle(param);
+                            await api.SendGroupMessageAsync(groupMessage.GroupId, encoded);
+                        }
                         else
                         {
                             await api.SendGroupMessageAsync(groupMessage.GroupId, SharedContent.SyntaxError);

@@ -18,7 +18,7 @@ namespace cqbot
             });
             var page = await browser.NewPageAsync();
             await page.GoToAsync(url);
-            Thread.Sleep(TimeSpan.FromSeconds(20D));
+            Thread.Sleep(TimeSpan.FromSeconds(10D));
             await page.ScreenshotAsync("/home/cqbot/images/answer.png", new ScreenshotOptions {FullPage = true});
             await browser.CloseAsync();
         }

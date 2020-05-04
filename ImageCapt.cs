@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -9,12 +8,7 @@ namespace cqbot
 {
     public static class ImageCapt
     {
-        private static Browser browser = await Puppeteer.LaunchAsync(new LaunchOptions
-        {
-            Headless = true,
-            ExecutablePath = "/usr/bin/chromium-browser"
-        });
-        public static async Task CaptCall(string url, long userId, DateTimeOffset time)
+        public static async Task CaptCall(Browser browser, string url, long userId, DateTimeOffset time)
         {
             var page = await browser.NewPageAsync();
             await page.GoToAsync(url);

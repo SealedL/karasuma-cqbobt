@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using PuppeteerSharp;
 using Sisters.WudiLib;
 using Sisters.WudiLib.WebSocket;
 
@@ -8,19 +9,25 @@ namespace cqbot
 {
     internal static class Program
     {
-        private static void Main()
+        private static async Task Main()
         {
-
+            
+            var options = new LaunchOptions()
+            {
+                Headless = true,
+                ExecutablePath = "/usr/bin/chromium-browser"
+            };
+            
+            var browser = await Puppeteer.LaunchAsync(options);
+            
             var httpApi = new HttpApiClient {ApiAddress = SharedContent.HttpApiPath};
-
+            
             var webSocketEvent = new CqHttpWebSocketEvent(SharedContent.WebSocketEventPath) {ApiClient = httpApi};
-
-
-
+            
             // 订阅事件。
             webSocketEvent.MessageEvent += async (api, message) =>
             {
-                await EventHandler.MessageProcess(api, message);
+                await EventHandler.MessageProcess(browser, api, message);
             };
 
             webSocketEvent.FriendRequestEvent += (api, e) => false;

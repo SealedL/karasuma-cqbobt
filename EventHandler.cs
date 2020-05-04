@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Web;
+using PuppeteerSharp;
 using Sisters.WudiLib;
 using Sisters.WudiLib.Posts;
 
@@ -10,7 +11,7 @@ namespace cqbot
 {
     internal static class EventHandler
     {
-        public static async Task MessageProcess(HttpApiClient api,
+        public static async Task MessageProcess(Browser browser, HttpApiClient api,
             Sisters.WudiLib.Posts.Message message)
         {
             switch (message)
@@ -54,7 +55,7 @@ namespace cqbot
                                     Queue.AddUserToList(userId);
                                     await api.SendGroupMessageAsync(groupMessage.GroupId, SharedContent.Wait);
                                     var url = ImageCapt.UrlHandle(param);
-                                    await ImageCapt.CaptCall(url, userId, groupMessage.Time.LocalDateTime);
+                                    await ImageCapt.CaptCall(browser, url, userId, groupMessage.Time.LocalDateTime);
                                     var bytes = await File.ReadAllBytesAsync($"/home/cqbot/images/answer_{userId}.png");
                                     var image = SendingMessage.ByteArrayImage(bytes);
                                     await api.SendGroupMessageAsync(groupMessage.GroupId, image);

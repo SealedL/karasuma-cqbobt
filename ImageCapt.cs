@@ -10,12 +10,11 @@ namespace cqbot
     {
         public static async Task CaptCall(string url, long userId, DateTimeOffset time)
         {
-            var options = new LaunchOptions
+            var browser = await Puppeteer.LaunchAsync(new LaunchOptions
             {
                 Headless = true,
                 ExecutablePath = "/usr/bin/chromium-browser"
-            };
-            var browser = await Puppeteer.LaunchAsync(options);
+            });
             var page = await browser.NewPageAsync();
             await page.GoToAsync(url);
             Thread.Sleep(TimeSpan.FromSeconds(20D));

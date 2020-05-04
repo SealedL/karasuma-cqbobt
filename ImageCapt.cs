@@ -9,18 +9,18 @@ namespace cqbot
 {
     public static class ImageCapt
     {
-        public static async Task CaptCall(string url)
+        private static Browser browser = await Puppeteer.LaunchAsync(new LaunchOptions
         {
-            var browser = await Puppeteer.LaunchAsync(new LaunchOptions
-            {
-                Headless = true,
-                ExecutablePath = "/usr/bin/chromium-browser"
-            });
+            Headless = true,
+            ExecutablePath = "/usr/bin/chromium-browser"
+        });
+        public static async Task CaptCall(string url, long userId, DateTimeOffset time)
+        {
             var page = await browser.NewPageAsync();
             await page.GoToAsync(url);
             Thread.Sleep(TimeSpan.FromSeconds(20D));
-            await page.ScreenshotAsync("/home/cqbot/images/answer.png", new ScreenshotOptions {FullPage = true});
-            await browser.CloseAsync();
+            await page.ScreenshotAsync($"/home/cqbot/images/answer-{time}-{userId}.png", new ScreenshotOptions {FullPage = true});
+            await page.CloseAsync();
         }
 
         public static string UrlHandle(string input)

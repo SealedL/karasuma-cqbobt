@@ -54,8 +54,8 @@ namespace cqbot
                                     Queue.AddUserToList(userId);
                                     await api.SendGroupMessageAsync(groupMessage.GroupId, SharedContent.Wait);
                                     var url = ImageCapt.UrlHandle(param);
-                                    await ImageCapt.CaptCall(url);
-                                    var bytes = await File.ReadAllBytesAsync("/home/cqbot/images/answer.png");
+                                    await ImageCapt.CaptCall(url, userId, groupMessage.Time.LocalDateTime);
+                                    var bytes = await File.ReadAllBytesAsync($"/home/cqbot/images/answer_{userId}.png");
                                     var image = SendingMessage.ByteArrayImage(bytes);
                                     await api.SendGroupMessageAsync(groupMessage.GroupId, image);
                                     Queue.RemoveUserFromList(userId);
@@ -64,6 +64,8 @@ namespace cqbot
                                 {
                                     Console.WriteLine(e);
                                     await api.SendGroupMessageAsync(groupMessage.GroupId, SharedContent.Error);
+                                    await api.SendGroupMessageAsync(groupMessage.GroupId, e.Message);
+                                    Queue.RemoveUserFromList(userId);
                                 }
                             }
                             else

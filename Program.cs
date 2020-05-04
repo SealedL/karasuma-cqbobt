@@ -9,17 +9,8 @@ namespace cqbot
 {
     internal static class Program
     {
-        private static async Task Main()
+        private static void Main()
         {
-            
-            var options = new LaunchOptions()
-            {
-                Headless = true,
-                ExecutablePath = "/usr/bin/chromium-browser"
-            };
-            
-            var browser = await Puppeteer.LaunchAsync(options);
-            
             var httpApi = new HttpApiClient {ApiAddress = SharedContent.HttpApiPath};
             
             var webSocketEvent = new CqHttpWebSocketEvent(SharedContent.WebSocketEventPath) {ApiClient = httpApi};
@@ -27,7 +18,7 @@ namespace cqbot
             // 订阅事件。
             webSocketEvent.MessageEvent += async (api, message) =>
             {
-                await EventHandler.MessageProcess(browser, api, message);
+                await EventHandler.MessageProcess(api, message);
             };
 
             webSocketEvent.FriendRequestEvent += (api, e) => false;

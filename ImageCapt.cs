@@ -28,20 +28,5 @@ namespace cqbot
             var searchItem = HttpUtility.UrlEncode(input);
             return "https://www.wolframalpha.com/input/?i=" + searchItem;
         }
-
-        public static async Task<bool> IsUserListed(List<long> userLock, long userId)
-        {
-            return userLock.Contains(userId);
-        }
-
-        public static async Task AddUserToList(List<long> userLock, long userId)
-        {
-            userLock.Add(userId);
-        }
-
-        public static async Task RemoveUserFromList(List<long> userLock, long userId)
-        {
-            userLock.Remove(userId);
-        }
     }
 }

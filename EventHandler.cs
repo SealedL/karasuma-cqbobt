@@ -53,18 +53,19 @@ namespace cqbot
                         else if (string.CompareOrdinal(command, "/wolfram") == 0)
                         {
                             var userId = groupMessage.Sender.UserId;
-                            if (!await ImageCapt.IsUserListed(userList, userId))
+                            Console.WriteLine(userId);
+                            if (!userList.Contains(userId))
                             {
                                 try
                                 {
-                                    await ImageCapt.AddUserToList(userList, userId);
+                                    userList.Add(userId);
                                     await api.SendGroupMessageAsync(groupMessage.GroupId, SharedContent.Wait);
                                     var url = ImageCapt.UrlHandle(param);
                                     await ImageCapt.CaptCall(url);
                                     var bytes = await File.ReadAllBytesAsync("/home/cqbot/images/answer.png");
                                     var image = SendingMessage.ByteArrayImage(bytes);
                                     await api.SendGroupMessageAsync(groupMessage.GroupId, image);
-                                    await ImageCapt.RemoveUserFromList(userList, userId);
+                                    userList.Remove(userId);
                                 }
                                 catch (Exception e)
                                 {

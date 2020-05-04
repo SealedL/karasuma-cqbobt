@@ -53,9 +53,7 @@ namespace cqbot
                         else if (string.CompareOrdinal(command, "/wolfram") == 0)
                         {
                             var userId = groupMessage.Sender.UserId;
-                            var isLocked = await ImageCapt.IsUserListed(userList, userId);
-                            if (!isLocked)
-                            {
+                            if (!await ImageCapt.IsUserListed(userList, userId)){
                                 try
                                 {
                                     await ImageCapt.AddUserToList(userList, userId);
@@ -73,6 +71,7 @@ namespace cqbot
                                     await api.SendGroupMessageAsync(groupMessage.GroupId, SharedContent.Error);
                                 }
                             }
+                            else
                             {
                                 await api.SendGroupMessageAsync(groupMessage.GroupId, SharedContent.Busy);
                             }

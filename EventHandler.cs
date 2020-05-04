@@ -12,7 +12,7 @@ namespace cqbot
         public static async Task MessageProcess(HttpApiClient api,
             Sisters.WudiLib.Posts.Message message)
         {
-            var users = new List<long>();
+            var userList = new List<long>();
             
             switch (message)
             {
@@ -53,19 +53,19 @@ namespace cqbot
                         else if (string.CompareOrdinal(command, "/wolfram") == 0)
                         {
                             var userId = groupMessage.Sender.UserId;
-                            var isLocked = await ImageCapt.IsUserLocked(users, userId);
+                            var isLocked = await ImageCapt.IsUserListed(userList, userId);
                             if (!isLocked)
                             {
                                 try
                                 {
-                                    await ImageCapt.AddUserToLocks(users, userId);
+                                    await ImageCapt.AddUserToList(userList, userId);
                                     await api.SendGroupMessageAsync(groupMessage.GroupId, SharedContent.Wait);
                                     var url = ImageCapt.UrlHandle(param);
                                     await ImageCapt.CaptCall(url);
                                     var bytes = await File.ReadAllBytesAsync("/home/cqbot/images/answer.png");
                                     var image = SendingMessage.ByteArrayImage(bytes);
                                     await api.SendGroupMessageAsync(groupMessage.GroupId, image);
-                                    await ImageCapt.RemoveUserFromLocks(users, userId);
+                                    await ImageCapt.RemoveUserFromList(userList, userId);
                                 }
                                 catch (Exception e)
                                 {

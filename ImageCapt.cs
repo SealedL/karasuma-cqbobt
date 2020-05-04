@@ -13,7 +13,7 @@ namespace cqbot
             var browser = await Puppeteer.LaunchAsync(new LaunchOptions
             {
                 Headless = true,
-                ExecutablePath = "/usr/bin/chromium-browser"
+                ExecutablePath = "/usr/bin/google-chrome"
             });
             var page = await browser.NewPageAsync();
             await page.GoToAsync(url);

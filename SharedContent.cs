@@ -16,6 +16,7 @@ namespace cqbot
                                    "support [无参数] #显示本项目GitHub仓库链接;\n\n" +
                                    "echo [string] #复读[string]；\n\n" + 
                                    "comment [string] #给作者留言[string]；\n\n" + 
+                                   "encode [string] #将[string]按URL链接的格式进行转码；\n\n" + 
                                    "wolfram [string] #利用Wolfram|Alpha搜索引擎对[string]进行计算。";
         public const string Support = "本项目GitHub仓库链接：\n" +
                                       "https://github.com/SealedL/karasuma-cqbot\n" +

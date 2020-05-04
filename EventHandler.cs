@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using System.Web;
 using Sisters.WudiLib;
 using Sisters.WudiLib.Posts;
 
@@ -37,16 +38,11 @@ namespace cqbot
                         else if (string.CompareOrdinal(command, "/comment") == 0)
                         {
                             await api.SendGroupMessageAsync(groupMessage.GroupId, SharedContent.Comment);
-                            var comment = $"来自“{groupMessage.GroupId}:@{groupMessage.Sender.InGroupName}”的一条留言：\n";
+                            var senderName = groupMessage.Sender.InGroupName ?? groupMessage.Sender.Nickname;
+                            var comment = $"来自“{groupMessage.GroupId}:@{senderName}”的一条留言：\n";
                             comment += param;
                             comment += $"\n留言时间：{groupMessage.Time.ToLocalTime()}";
                             await api.SendPrivateMessageAsync(SharedContent.MasterId, comment);
-                        }
-                        else if (string.CompareOrdinal(command, "/image-test") == 0)
-                        {
-                            var bytes = await File.ReadAllBytesAsync("/home/cqbot/images/test.png");
-                            var image = SendingMessage.ByteArrayImage(bytes);
-                            await api.SendGroupMessageAsync(groupMessage.GroupId, image);
                         }
                         else if (string.CompareOrdinal(command, "/wolfram") == 0)
                         {
@@ -77,7 +73,7 @@ namespace cqbot
                         }
                         else if (string.CompareOrdinal(command, "/encode") == 0)
                         {
-                            var encoded = ImageCapt.UrlHandle(param);
+                            var encoded = HttpUtility.UrlEncode(param);
                             await api.SendGroupMessageAsync(groupMessage.GroupId, encoded);
                         }
                         else

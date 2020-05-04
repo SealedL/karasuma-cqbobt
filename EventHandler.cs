@@ -55,8 +55,9 @@ namespace cqbot
                                     Queue.AddUserToList(userId);
                                     await api.SendGroupMessageAsync(groupMessage.GroupId, SharedContent.Wait);
                                     var url = ImageCapt.UrlHandle(param);
-                                    await ImageCapt.CaptCall(url, userId, groupMessage.Time.LocalDateTime);
-                                    var bytes = await File.ReadAllBytesAsync($"/home/cqbot/images/answer_{userId}.png");
+                                    var time = groupMessage.Time.LocalDateTime;
+                                    await ImageCapt.CaptCall(url, userId, time);
+                                    var bytes = await File.ReadAllBytesAsync($"/home/cqbot/images/answer-{time.Minute}-{time.Hour}-{time.Day}-{time.Month}-{time.Year}-{userId}.png");
                                     var image = SendingMessage.ByteArrayImage(bytes);
                                     await api.SendGroupMessageAsync(groupMessage.GroupId, image);
                                     Queue.RemoveUserFromList(userId);

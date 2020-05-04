@@ -10,7 +10,7 @@ namespace cqbot
     {
         public static async Task CaptCall(string url, long userId, DateTimeOffset time)
         {
-            var options = new LaunchOptions()
+            var options = new LaunchOptions
             {
                 Headless = true,
                 ExecutablePath = "/usr/bin/chromium-browser"

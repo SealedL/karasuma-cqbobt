@@ -13,12 +13,11 @@ namespace cqbot
             var browser = await Puppeteer.LaunchAsync(new LaunchOptions
             {
                 Headless = true,
-                ExecutablePath = "/usr/bin/chromium-browser",
-                Args = new []{"--proxy-server=localhost:8118"}
+                ExecutablePath = "/usr/bin/chromium-browser"
             });
             var page = await browser.NewPageAsync();
             await page.GoToAsync(url);
-            Thread.Sleep(TimeSpan.FromSeconds(10D));
+            Thread.Sleep(TimeSpan.FromSeconds(20D));
             await page.ScreenshotAsync("/home/cqbot/images/answer.png", new ScreenshotOptions {FullPage = true});
             await browser.CloseAsync();
         }

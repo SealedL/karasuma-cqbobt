@@ -53,7 +53,8 @@ namespace cqbot
                         else if (string.CompareOrdinal(command, "/wolfram") == 0)
                         {
                             var userId = groupMessage.Sender.UserId;
-                            if (!await ImageCapt.IsUserListed(userList, userId)){
+                            if (!await ImageCapt.IsUserListed(userList, userId))
+                            {
                                 try
                                 {
                                     await ImageCapt.AddUserToList(userList, userId);

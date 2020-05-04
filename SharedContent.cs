@@ -23,9 +23,9 @@ namespace cqbot
                                       "欢迎帮助我改进程序";
         public const string Comment = "您已成功送出一条留言";
         public const string SyntaxError = "格式错误";
-        public const string PermissionError = "权限不足：宁不配使唤我";
         public const string Wait = "数据传输中，请耐心等待";
         public const string Error = "发生错误，请向管理员报告";
+        public const string Busy = "您有命令正在执行，🙏请等待命令执行完毕";
         
         //User ID related
         public static readonly long MasterId = ReadMasterId();
@@ -33,8 +33,7 @@ namespace cqbot
         private static long ReadMasterId()
         {
             var jsonString = File.ReadAllText("./bin/Debug/netcoreapp3.1/ids.json");
-            var idType = new IdType();
-            idType = JsonSerializer.Deserialize<IdType>(jsonString);
+            var idType = JsonSerializer.Deserialize<IdType>(jsonString);
             return idType.MasterId;
         }
     }

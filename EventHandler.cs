@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Sisters.WudiLib;
@@ -11,6 +12,8 @@ namespace cqbot
         public static async Task MessageProcess(HttpApiClient api,
             Sisters.WudiLib.Posts.Message message)
         {
+            var users = new List<long>();
+            
             switch (message)
             {
                 case GroupMessage groupMessage:
@@ -49,19 +52,29 @@ namespace cqbot
                         }
                         else if (string.CompareOrdinal(command, "/wolfram") == 0)
                         {
-                            await api.SendGroupMessageAsync(groupMessage.GroupId, SharedContent.Wait);
-                            var url = ImageCapt.UrlHandle(param);
-                            try
+                            var userId = groupMessage.Sender.UserId;
+                            if (!users.Contains(userId))
                             {
-                                await ImageCapt.CaptCall(url);
-                                var bytes = await File.ReadAllBytesAsync("/home/cqbot/images/answer.png");
-                                var image = SendingMessage.ByteArrayImage(bytes);
-                                await api.SendGroupMessageAsync(groupMessage.GroupId, image);
+                                await api.SendGroupMessageAsync(groupMessage.GroupId, SharedContent.Wait);
+                                var url = ImageCapt.UrlHandle(param);
+                                users.Add(userId);
+                                try
+                                {
+                                    await ImageCapt.CaptCall(url);
+                                    var bytes = await File.ReadAllBytesAsync("/home/cqbot/images/answer.png");
+                                    var image = SendingMessage.ByteArrayImage(bytes);
+                                    await api.SendGroupMessageAsync(groupMessage.GroupId, image);
+                                    users.Remove(userId);
+                                }
+                                catch (Exception e)
+                                {
+                                    Console.WriteLine(e);
+                                    await api.SendGroupMessageAsync(groupMessage.GroupId, SharedContent.Error);
+                                }
                             }
-                            catch (Exception e)
+                            else
                             {
-                                Console.WriteLine(e);
-                                await api.SendGroupMessageAsync(groupMessage.GroupId,SharedContent.Error);
+                                await api.SendGroupMessageAsync(groupMessage.GroupId, SharedContent.Busy);
                             }
                         }
                         else if (string.CompareOrdinal(command, "/encode") == 0)

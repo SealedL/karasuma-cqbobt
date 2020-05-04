@@ -33,17 +33,6 @@ namespace cqbot
             // 连接（开始监听上报）。
             CreateConnect(webSocketEvent);
 
-            // 每10秒打印 WebSocket 状态。
-            Task.Run(async () =>
-            {
-                while (true)
-                {
-                    Console.WriteLine($"Available: {webSocketEvent.IsAvailable}," +
-                        $"Listening {webSocketEvent.IsListening}");
-                    await Task.Delay(10000);
-                }
-            });
-
             Console.ReadLine();
         }
 

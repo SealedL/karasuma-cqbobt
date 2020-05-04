@@ -53,18 +53,19 @@ namespace cqbot
                         else if (string.CompareOrdinal(command, "/wolfram") == 0)
                         {
                             var userId = groupMessage.Sender.UserId;
-                            if (!users.Contains(userId))
+                            var isLocked = await ImageCapt.IsUserLocked(users, userId);
+                            if (!isLocked)
                             {
-                                await api.SendGroupMessageAsync(groupMessage.GroupId, SharedContent.Wait);
-                                var url = ImageCapt.UrlHandle(param);
-                                users.Add(userId);
                                 try
                                 {
+                                    await ImageCapt.AddUserToLocks(users, userId);
+                                    await api.SendGroupMessageAsync(groupMessage.GroupId, SharedContent.Wait);
+                                    var url = ImageCapt.UrlHandle(param);
                                     await ImageCapt.CaptCall(url);
                                     var bytes = await File.ReadAllBytesAsync("/home/cqbot/images/answer.png");
                                     var image = SendingMessage.ByteArrayImage(bytes);
                                     await api.SendGroupMessageAsync(groupMessage.GroupId, image);
-                                    users.Remove(userId);
+                                    await ImageCapt.RemoveUserFromLocks(users, userId);
                                 }
                                 catch (Exception e)
                                 {
@@ -72,7 +73,6 @@ namespace cqbot
                                     await api.SendGroupMessageAsync(groupMessage.GroupId, SharedContent.Error);
                                 }
                             }
-                            else
                             {
                                 await api.SendGroupMessageAsync(groupMessage.GroupId, SharedContent.Busy);
                             }

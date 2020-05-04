@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -26,6 +27,21 @@ namespace cqbot
         {
             var searchItem = HttpUtility.UrlEncode(input);
             return "https://www.wolframalpha.com/input/?i=" + searchItem;
+        }
+
+        public static async Task<bool> IsUserLocked(List<long> userLock, long userId)
+        {
+            return userLock.Contains(userId);
+        }
+
+        public static async Task AddUserToLocks(List<long> userLock, long userId)
+        {
+            userLock.Add(userId);
+        }
+
+        public static async Task RemoveUserFromLocks(List<long> userLock, long userId)
+        {
+            userLock.Remove(userId);
         }
     }
 }

@@ -12,8 +12,6 @@ namespace cqbot
         public static async Task MessageProcess(HttpApiClient api,
             Sisters.WudiLib.Posts.Message message)
         {
-            var userList = new List<long>();
-            
             switch (message)
             {
                 case GroupMessage groupMessage:
@@ -54,18 +52,18 @@ namespace cqbot
                         {
                             var userId = groupMessage.Sender.UserId;
                             Console.WriteLine(userId);
-                            if (!userList.Contains(userId))
+                            if (!Queue.IsUserListed(userId))
                             {
                                 try
                                 {
-                                    userList.Add(userId);
+                                    Queue.AddUserToList(userId);
                                     await api.SendGroupMessageAsync(groupMessage.GroupId, SharedContent.Wait);
                                     var url = ImageCapt.UrlHandle(param);
                                     await ImageCapt.CaptCall(url);
                                     var bytes = await File.ReadAllBytesAsync("/home/cqbot/images/answer.png");
                                     var image = SendingMessage.ByteArrayImage(bytes);
                                     await api.SendGroupMessageAsync(groupMessage.GroupId, image);
-                                    userList.Remove(userId);
+                                    Queue.RemoveUserFromList(userId);
                                 }
                                 catch (Exception e)
                                 {

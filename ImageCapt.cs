@@ -19,7 +19,7 @@ namespace cqbot
             var page = await browser.NewPageAsync();
             await page.GoToAsync(url);
             Thread.Sleep(TimeSpan.FromSeconds(20D));
-            await page.ScreenshotAsync($"/home/cqbot/images/answer-{time}-{userId}.png", new ScreenshotOptions {FullPage = true});
+            await page.ScreenshotAsync($"/home/cqbot/images/answer-{time.Minute}-{time.Hour}-{time.Day}-{time.Month}-{time.Year}-{userId}.png", new ScreenshotOptions {FullPage = true});
             await page.CloseAsync();
             await browser.CloseAsync();
             browser.Dispose();

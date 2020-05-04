@@ -51,7 +51,6 @@ namespace cqbot
                         else if (string.CompareOrdinal(command, "/wolfram") == 0)
                         {
                             var userId = groupMessage.Sender.UserId;
-                            Console.WriteLine(userId);
                             if (!Queue.IsUserListed(userId))
                             {
                                 try

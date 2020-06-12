@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -22,12 +23,29 @@ namespace cqbot
             await page.CloseAsync();
             await browser.CloseAsync();
             browser.Dispose();
+            KillChromeProcess();
         }
 
         public static string UrlHandle(string input)
         {
             var searchItem = HttpUtility.UrlEncode(input);
             return "https://www.wolframalpha.com/input/?i=" + searchItem;
+        }
+
+        public static void KillChromeProcess() {
+            try
+            {
+                var proc = Process.Start("killall", "chrome");
+                proc.WaitForExit();
+                if (proc.ExitCode == 0) {
+                    System.Console.WriteLine("Kill Chrome Process Successfully!");
+                }
+                proc.Close();
+            }
+            catch (Exception e)
+            {
+                System.Console.WriteLine(e);
+            }
         }
     }
 }

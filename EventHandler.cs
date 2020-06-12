@@ -66,6 +66,7 @@ namespace cqbot
                                     await api.SendGroupMessageAsync(groupMessage.GroupId, SharedContent.Error);
                                     await api.SendGroupMessageAsync(groupMessage.GroupId, e.Message);
                                     Queue.RemoveUserFromList(userId);
+                                    ImageCapt.KillChromeProcess();
                                 }
                             }
                             else
@@ -78,9 +79,10 @@ namespace cqbot
                             var encoded = HttpUtility.UrlEncode(param);
                             await api.SendGroupMessageAsync(groupMessage.GroupId, encoded);
                         }
-                        else
+                        else if (string.CompareOrdinal(command, "/decode") == 0)
                         {
-                            await api.SendGroupMessageAsync(groupMessage.GroupId, SharedContent.SyntaxError);
+                            var encoded = HttpUtility.HtmlDecode(param);
+                            await api.SendGroupMessageAsync(groupMessage.GroupId, encoded);
                         }
                     }
                     break;

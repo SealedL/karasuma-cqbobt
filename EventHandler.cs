@@ -22,11 +22,7 @@ namespace cqbot
                         var processed = CommandSplit(raw);
                         var command = processed[0];
                         var param = processed[1];
-                        if (string.CompareOrdinal(command, "/echo") == 0)
-                        {
-                            await api.SendGroupMessageAsync(groupMessage.GroupId, param);
-                        }
-                        else if (string.CompareOrdinal(command, "/help") == 0)
+                        if (string.CompareOrdinal(command, "/help") == 0)
                         {
                             await api.SendGroupMessageAsync(groupMessage.GroupId, SharedContent.Help);
                         }
@@ -77,12 +73,12 @@ namespace cqbot
                         else if (string.CompareOrdinal(command, "/encode") == 0)
                         {
                             var encoded = HttpUtility.UrlEncode(param);
-                            await api.SendGroupMessageAsync(groupMessage.GroupId, encoded);
+                            await api.SendGroupMessageAsync(groupMessage.GroupId, "对应字符（串）是" + encoded);
                         }
                         else if (string.CompareOrdinal(command, "/decode") == 0)
                         {
                             var decoded = HttpUtility.UrlDecode(param);
-                            await api.SendGroupMessageAsync(groupMessage.GroupId, decoded);
+                            await api.SendGroupMessageAsync(groupMessage.GroupId, "对应字符（串）是" + decoded);
                         }
                     }
                     break;

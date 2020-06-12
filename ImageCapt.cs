@@ -23,7 +23,6 @@ namespace cqbot
             await page.CloseAsync();
             await browser.CloseAsync();
             browser.Dispose();
-            KillChromeProcess();
         }
 
         public static string UrlHandle(string input)
@@ -35,15 +34,12 @@ namespace cqbot
         public static void KillChromeProcess() {
             try
             {
-                if (Process.GetProcessesByName("chrome") != null)
-                {
-                    var proc = Process.Start("killall", "chrome");
-                    proc.WaitForExit();
-                    if (proc.ExitCode == 0) {
-                        System.Console.WriteLine("Kill Chrome Process Successfully!");
-                    }
-                    proc.Close();
+                var proc = Process.Start("killall", "chrome");
+                proc.WaitForExit();
+                if (proc.ExitCode == 0) {
+                    System.Console.WriteLine("Kill Chrome Process Successfully!");
                 }
+                proc.Close();
             }
             catch (Exception e)
             {

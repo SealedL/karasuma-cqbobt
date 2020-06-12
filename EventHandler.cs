@@ -81,8 +81,8 @@ namespace cqbot
                         }
                         else if (string.CompareOrdinal(command, "/decode") == 0)
                         {
-                            var encoded = HttpUtility.HtmlDecode(param);
-                            await api.SendGroupMessageAsync(groupMessage.GroupId, encoded);
+                            var decoded = HttpUtility.UrlDecode(param);
+                            await api.SendGroupMessageAsync(groupMessage.GroupId, decoded);
                         }
                     }
                     break;

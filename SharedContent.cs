@@ -17,7 +17,7 @@ namespace cqbot
                                    "echo [string] #复读[string]；\n\n" + 
                                    "comment [string] #给作者留言[string]；\n\n" + 
                                    "encode [string] #将[string]按URL链接的格式进行转义；\n\n" + 
-                                   "decode [string] #将[string]按URL链接转义字符进行反转义；" + 
+                                   "decode [string] #将[string]按URL链接转义字符进行反转义；\n\n" + 
                                    "wolfram [string] #利用Wolfram|Alpha搜索引擎对[string]进行计算。";
         public const string Support = "本项目GitHub仓库链接：\n" +
                                       "https://github.com/SealedL/karasuma-cqbot\n" +

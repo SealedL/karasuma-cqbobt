@@ -35,12 +35,15 @@ namespace cqbot
         public static void KillChromeProcess() {
             try
             {
-                var proc = Process.Start("killall", "chrome");
-                proc.WaitForExit();
-                if (proc.ExitCode == 0) {
-                    System.Console.WriteLine("Kill Chrome Process Successfully!");
+                if (Process.GetProcessesByName("chrome") != null)
+                {
+                    var proc = Process.Start("killall", "chrome");
+                    proc.WaitForExit();
+                    if (proc.ExitCode == 0) {
+                        System.Console.WriteLine("Kill Chrome Process Successfully!");
+                    }
+                    proc.Close();
                 }
-                proc.Close();
             }
             catch (Exception e)
             {

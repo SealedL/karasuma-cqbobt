@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PuppeteerSharp" Version="2.0.2" />
     <PackageReference Include="Sisters.WudiLib" Version="0.0.5" />
     <PackageReference Include="Sisters.WudiLib.WebSocket" Version="0.0.4" />
   </ItemGroup>

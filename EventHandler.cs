@@ -31,7 +31,8 @@ namespace cqbot
                         else if (string.CompareOrdinal(command, "/comment") == 0)
                         {
                             await api.SendGroupMessageAsync(groupMessage.GroupId, SharedContent.Comment);
-                            var senderName = groupMessage.Sender.InGroupName ?? groupMessage.Sender.Nickname;
+                            var senderName = groupMessage.Sender.InGroupName.Equals("") ?
+                                                   groupMessage.Sender.Nickname : groupMessage.Sender.InGroupName;
                             var comment = $"来自“{groupMessage.GroupId}:@{senderName}”的一条留言：\n";
                             comment += param;
                             comment += $"\n留言时间：{groupMessage.Time.ToLocalTime()}";

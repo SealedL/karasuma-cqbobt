@@ -1,5 +1,3 @@
-using System;
-using System.IO;
 using System.Threading.Tasks;
 using System.Web;
 using Sisters.WudiLib;
@@ -38,37 +36,6 @@ namespace cqbot
                             comment += param;
                             comment += $"\n留言时间：{groupMessage.Time.ToLocalTime()}";
                             await api.SendPrivateMessageAsync(SharedContent.MasterId, comment);
-                        }
-                        else if (string.CompareOrdinal(command, "/wolfram") == 0)
-                        {
-                            var userId = groupMessage.Sender.UserId;
-                            if (!Queue.IsUserListed(userId))
-                            {
-                                try
-                                {
-                                    Queue.AddUserToList(userId);
-                                    await api.SendGroupMessageAsync(groupMessage.GroupId, SharedContent.Wait);
-                                    var url = ImageCapt.UrlHandle(param);
-                                    var time = groupMessage.Time.LocalDateTime;
-                                    await ImageCapt.CaptCall(url, userId, time);
-                                    var bytes = await File.ReadAllBytesAsync($"/home/cqbot/images/answer-{time.Minute}-{time.Hour}-{time.Day}-{time.Month}-{time.Year}-{userId}.png");
-                                    var image = SendingMessage.ByteArrayImage(bytes);
-                                    await api.SendGroupMessageAsync(groupMessage.GroupId, image);
-                                    Queue.RemoveUserFromList(userId);
-                                }
-                                catch (Exception e)
-                                {
-                                    Console.WriteLine(e);
-                                    await api.SendGroupMessageAsync(groupMessage.GroupId, SharedContent.Error);
-                                    await api.SendGroupMessageAsync(groupMessage.GroupId, e.Message);
-                                    Queue.RemoveUserFromList(userId);
-                                    ImageCapt.KillChromeProcess();
-                                }
-                            }
-                            else
-                            {
-                                await api.SendGroupMessageAsync(groupMessage.GroupId, SharedContent.Busy);
-                            }
                         }
                         else if (string.CompareOrdinal(command, "/encode") == 0)
                         {
